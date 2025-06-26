@@ -1,0 +1,32 @@
+databaseChangeLog:
+  - changeSet:
+      id: create_table_departments
+      author: mosfik
+      comment: "This changeset creates Department Table"
+      changes:
+        - sqlFile:
+            path: db/changelog/sql/create_table_departments.sql
+
+  - changeSet:
+      id: create_table_users
+      author: mosfik
+      comment: "This changeset creates Users Table"
+      changes:
+        - sqlFile:
+            path: db/changelog/sql/create_table_users.sql
+
+  - changeSet:
+      id: create_table_projects
+      author: mosfik
+      comment: "This changeset creates Projects Table"
+      changes:
+        - sqlFile:
+            path: db/changelog/sql/create_table_projects.sql
+
+  - changeSet:
+      id: create_table_tasks
+      author: mosfik
+      comment: "This changeset creates Tasks Table"
+      changes:
+        - sqlFile:
+            path: db/changelog/sql/create_table_tasks.sql
