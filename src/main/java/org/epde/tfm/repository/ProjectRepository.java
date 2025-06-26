@@ -1,7 +1,0 @@
-package org.epde.tfm.repository;
-
-import org.epde.tfm.model.Project;
-import org.springframework.data.jpa.repository.JpaRepository;
-
-public interface ProjectRepository extends JpaRepository<Project, Long> {
-}
