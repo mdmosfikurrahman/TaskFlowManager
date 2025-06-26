@@ -1,0 +1,4 @@
+extend type Query {
+    getTasks: [Task!]!
+    getTaskById(id: ID!): Task
+}

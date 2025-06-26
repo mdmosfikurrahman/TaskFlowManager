@@ -1,0 +1,18 @@
+type Task {
+    id: ID!
+    title: String!
+    description: String
+    status: String
+    dueDate: String
+    assignedToName: String
+    projectName: String
+}
+
+input TaskInput {
+    title: String!
+    description: String
+    status: String
+    dueDate: String
+    assignedToId: ID!
+    projectId: ID!
+}

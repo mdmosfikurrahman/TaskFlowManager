@@ -1,0 +1,4 @@
+extend type Query {
+    getProjects: [Project!]!
+    getProjectById(id: ID!): Project
+}

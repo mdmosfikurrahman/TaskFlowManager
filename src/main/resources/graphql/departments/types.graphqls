@@ -1,0 +1,12 @@
+type Department {
+    id: ID!
+    name: String!
+    code: String
+    location: String
+}
+
+input DepartmentInput {
+    name: String!
+    code: String
+    location: String
+}
