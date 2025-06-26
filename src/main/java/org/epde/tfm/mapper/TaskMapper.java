@@ -1,26 +1,33 @@
 package org.epde.tfm.mapper;
 
-import org.epde.tfm.dto.TaskDTO;
+import org.epde.tfm.dto.request.TaskRequest;
+import org.epde.tfm.dto.response.TaskResponse;
 import org.epde.tfm.model.Project;
 import org.epde.tfm.model.Task;
 import org.epde.tfm.model.User;
 
 public class TaskMapper {
-    public static TaskDTO toDto(Task e) {
-        TaskDTO d = new TaskDTO();
-        d.setId(e.getId());
-        d.setTitle(e.getTitle());
-        d.setAssignedToId(e.getAssignedTo() != null ? e.getAssignedTo().getId() : null);
-        d.setProjectId(e.getProject() != null ? e.getProject().getId() : null);
-        return d;
+
+    public static TaskResponse toResponse(Task task) {
+        return TaskResponse.builder()
+                .id(task.getId())
+                .title(task.getTitle())
+                .description(task.getDescription())
+                .status(task.getStatus())
+                .dueDate(task.getDueDate())
+                .assignedToName(task.getAssignedTo() != null ? task.getAssignedTo().getName() : null)
+                .projectName(task.getProject() != null ? task.getProject().getName() : null)
+                .build();
     }
 
-    public static Task toEntity(TaskDTO d, User user, Project project) {
-        Task e = new Task();
-        e.setId(d.getId());
-        e.setTitle(d.getTitle());
-        e.setAssignedTo(user);
-        e.setProject(project);
-        return e;
+    public static Task toEntity(TaskRequest dto, User user, Project project) {
+        return Task.builder()
+                .title(dto.getTitle())
+                .description(dto.getDescription())
+                .status(dto.getStatus())
+                .dueDate(dto.getDueDate())
+                .assignedTo(user)
+                .project(project)
+                .build();
     }
 }

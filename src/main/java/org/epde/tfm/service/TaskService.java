@@ -1,15 +1,14 @@
 package org.epde.tfm.service;
 
-import org.epde.tfm.dto.TaskDTO;
+import org.epde.tfm.dto.request.TaskRequest;
+import org.epde.tfm.dto.response.TaskResponse;
 
 import java.util.List;
 
 public interface TaskService {
-    List<TaskDTO> getAll();
-
-    TaskDTO getById(Long id);
-
-    TaskDTO create(TaskDTO dto);
-
+    List<TaskResponse> getAll();
+    TaskResponse getById(Long id);
+    TaskResponse create(TaskRequest dto);
+    TaskResponse update(Long id, TaskRequest dto);
     void delete(Long id);
 }

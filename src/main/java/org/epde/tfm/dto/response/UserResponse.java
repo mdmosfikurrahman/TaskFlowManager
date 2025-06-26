@@ -1,22 +1,16 @@
-package org.epde.tfm.model;
+package org.epde.tfm.dto.response;
 
-import jakarta.persistence.*;
 import lombok.*;
 
-@Entity
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class UserResponse {
     private Long id;
-
     private String name;
     private String email;
     private String phone;
     private String position;
-
-    @ManyToOne
-    private Department department;
+    private String departmentName;
 }

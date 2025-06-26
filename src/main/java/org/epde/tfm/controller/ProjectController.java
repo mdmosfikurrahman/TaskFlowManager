@@ -2,7 +2,8 @@ package org.epde.tfm.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.epde.tfm.dto.ProjectDTO;
+import org.epde.tfm.dto.request.ProjectRequest;
+import org.epde.tfm.dto.response.ProjectResponse;
 import org.epde.tfm.infrastructure.response.RestResponse;
 import org.epde.tfm.service.ProjectService;
 import org.springframework.web.bind.annotation.*;
@@ -16,18 +17,23 @@ public class ProjectController {
     private final ProjectService service;
 
     @GetMapping
-    public RestResponse<List<ProjectDTO>> all() {
+    public RestResponse<List<ProjectResponse>> all() {
         return RestResponse.success(200, "Fetched all projects", service.getAll());
     }
 
     @GetMapping("/{id}")
-    public RestResponse<ProjectDTO> one(@PathVariable Long id) {
+    public RestResponse<ProjectResponse> one(@PathVariable Long id) {
         return RestResponse.success(200, "Fetched project", service.getById(id));
     }
 
     @PostMapping
-    public RestResponse<ProjectDTO> create(@Valid @RequestBody ProjectDTO dto) {
+    public RestResponse<ProjectResponse> create(@Valid @RequestBody ProjectRequest dto) {
         return RestResponse.success(201, "Project created", service.create(dto));
+    }
+
+    @PutMapping("/{id}")
+    public RestResponse<ProjectResponse> update(@PathVariable Long id, @Valid @RequestBody ProjectRequest dto) {
+        return RestResponse.success(200, "Project updated", service.update(id, dto));
     }
 
     @DeleteMapping("/{id}")

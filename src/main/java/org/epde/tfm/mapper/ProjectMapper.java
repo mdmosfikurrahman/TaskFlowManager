@@ -1,23 +1,30 @@
 package org.epde.tfm.mapper;
 
-import org.epde.tfm.dto.ProjectDTO;
+import org.epde.tfm.dto.request.ProjectRequest;
+import org.epde.tfm.dto.response.ProjectResponse;
 import org.epde.tfm.model.Project;
 import org.epde.tfm.model.User;
 
 public class ProjectMapper {
-    public static ProjectDTO toDto(Project e) {
-        ProjectDTO d = new ProjectDTO();
-        d.setId(e.getId());
-        d.setName(e.getName());
-        d.setManagerId(e.getManager() != null ? e.getManager().getId() : null);
-        return d;
+
+    public static ProjectResponse toResponse(Project project) {
+        return ProjectResponse.builder()
+                .id(project.getId())
+                .name(project.getName())
+                .description(project.getDescription())
+                .startDate(project.getStartDate())
+                .endDate(project.getEndDate())
+                .managerName(project.getManager() != null ? project.getManager().getName() : null)
+                .build();
     }
 
-    public static Project toEntity(ProjectDTO d, User manager) {
-        Project e = new Project();
-        e.setId(d.getId());
-        e.setName(d.getName());
-        e.setManager(manager);
-        return e;
+    public static Project toEntity(ProjectRequest request, User manager) {
+        return Project.builder()
+                .name(request.getName())
+                .description(request.getDescription())
+                .startDate(request.getStartDate())
+                .endDate(request.getEndDate())
+                .manager(manager)
+                .build();
     }
 }

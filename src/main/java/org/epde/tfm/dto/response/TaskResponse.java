@@ -1,27 +1,19 @@
-package org.epde.tfm.model;
+package org.epde.tfm.dto.response;
 
-import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
 
-@Entity
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Task {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class TaskResponse {
     private Long id;
-
     private String title;
     private String description;
     private String status;
     private LocalDate dueDate;
-
-    @ManyToOne
-    private User assignedTo;
-
-    @ManyToOne
-    private Project project;
+    private String assignedToName;
+    private String projectName;
 }

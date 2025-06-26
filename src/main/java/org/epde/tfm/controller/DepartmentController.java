@@ -2,7 +2,8 @@ package org.epde.tfm.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.epde.tfm.dto.DepartmentDTO;
+import org.epde.tfm.dto.request.DepartmentRequest;
+import org.epde.tfm.dto.response.DepartmentResponse;
 import org.epde.tfm.infrastructure.response.RestResponse;
 import org.epde.tfm.service.DepartmentService;
 import org.springframework.web.bind.annotation.*;
@@ -16,23 +17,28 @@ public class DepartmentController {
     private final DepartmentService service;
 
     @GetMapping
-    public RestResponse<List<DepartmentDTO>> all() {
+    public RestResponse<List<DepartmentResponse>> all() {
         return RestResponse.success(200, "Fetched all departments", service.getAll());
     }
 
     @GetMapping("/{id}")
-    public RestResponse<DepartmentDTO> one(@PathVariable Long id) {
+    public RestResponse<DepartmentResponse> one(@PathVariable Long id) {
         return RestResponse.success(200, "Fetched department", service.getById(id));
     }
 
     @PostMapping
-    public RestResponse<DepartmentDTO> create(@Valid @RequestBody DepartmentDTO dto) {
-        return RestResponse.success(201, "Department created", service.create(dto));
+    public RestResponse<DepartmentResponse> create(@Valid @RequestBody DepartmentRequest dto) {
+        return RestResponse.success(201, "Created", service.create(dto));
+    }
+
+    @PutMapping("/{id}")
+    public RestResponse<DepartmentResponse> update(@PathVariable Long id, @Valid @RequestBody DepartmentRequest dto) {
+        return RestResponse.success(200, "Updated", service.update(id, dto));
     }
 
     @DeleteMapping("/{id}")
     public RestResponse<Void> delete(@PathVariable Long id) {
         service.delete(id);
-        return RestResponse.success(200, "Department deleted", null);
+        return RestResponse.success(200, "Deleted", null);
     }
 }

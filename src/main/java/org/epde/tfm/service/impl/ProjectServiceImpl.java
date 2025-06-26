@@ -1,9 +1,11 @@
 package org.epde.tfm.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.epde.tfm.dto.ProjectDTO;
+import org.epde.tfm.dto.request.ProjectRequest;
+import org.epde.tfm.dto.response.ProjectResponse;
 import org.epde.tfm.infrastructure.exception.NotFoundException;
 import org.epde.tfm.mapper.ProjectMapper;
+import org.epde.tfm.model.Project;
 import org.epde.tfm.model.User;
 import org.epde.tfm.repository.ProjectRepository;
 import org.epde.tfm.repository.UserRepository;
@@ -18,26 +20,50 @@ public class ProjectServiceImpl implements ProjectService {
     private final ProjectRepository repo;
     private final UserRepository userRepo;
 
-    public List<ProjectDTO> getAll() {
-        List<ProjectDTO> projects = repo.findAll().stream().map(ProjectMapper::toDto).toList();
+    @Override
+    public List<ProjectResponse> getAll() {
+        List<ProjectResponse> projects = repo.findAll().stream().map(ProjectMapper::toResponse).toList();
         if (projects.isEmpty()) {
             throw new NotFoundException("No projects found");
         }
         return projects;
     }
 
-    public ProjectDTO getById(Long id) {
+    @Override
+    public ProjectResponse getById(Long id) {
         return repo.findById(id)
-                .map(ProjectMapper::toDto)
+                .map(ProjectMapper::toResponse)
                 .orElseThrow(() -> new NotFoundException("Project not found with id: " + id));
     }
 
-    public ProjectDTO create(ProjectDTO dto) {
+    @Override
+    public ProjectResponse create(ProjectRequest dto) {
         User manager = userRepo.findById(dto.getManagerId())
                 .orElseThrow(() -> new NotFoundException("Manager not found with id: " + dto.getManagerId()));
-        return ProjectMapper.toDto(repo.save(ProjectMapper.toEntity(dto, manager)));
+        return ProjectMapper.toResponse(repo.save(ProjectMapper.toEntity(dto, manager)));
     }
 
+    @Override
+    public ProjectResponse update(Long id, ProjectRequest dto) {
+        if (!repo.existsById(id)) {
+            throw new NotFoundException("Project not found with id: " + id);
+        }
+        User manager = userRepo.findById(dto.getManagerId())
+                .orElseThrow(() -> new NotFoundException("Manager not found with id: " + dto.getManagerId()));
+
+        Project updated = Project.builder()
+                .id(id)
+                .name(dto.getName())
+                .description(dto.getDescription())
+                .startDate(dto.getStartDate())
+                .endDate(dto.getEndDate())
+                .manager(manager)
+                .build();
+
+        return ProjectMapper.toResponse(repo.save(updated));
+    }
+
+    @Override
     public void delete(Long id) {
         if (!repo.existsById(id)) {
             throw new NotFoundException("Project not found with id: " + id);

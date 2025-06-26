@@ -2,7 +2,8 @@ package org.epde.tfm.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.epde.tfm.dto.TaskDTO;
+import org.epde.tfm.dto.request.TaskRequest;
+import org.epde.tfm.dto.response.TaskResponse;
 import org.epde.tfm.infrastructure.response.RestResponse;
 import org.epde.tfm.service.TaskService;
 import org.springframework.web.bind.annotation.*;
@@ -16,18 +17,23 @@ public class TaskController {
     private final TaskService service;
 
     @GetMapping
-    public RestResponse<List<TaskDTO>> all() {
+    public RestResponse<List<TaskResponse>> all() {
         return RestResponse.success(200, "Fetched all tasks", service.getAll());
     }
 
     @GetMapping("/{id}")
-    public RestResponse<TaskDTO> one(@PathVariable Long id) {
+    public RestResponse<TaskResponse> one(@PathVariable Long id) {
         return RestResponse.success(200, "Fetched task", service.getById(id));
     }
 
     @PostMapping
-    public RestResponse<TaskDTO> create(@Valid @RequestBody TaskDTO dto) {
+    public RestResponse<TaskResponse> create(@Valid @RequestBody TaskRequest dto) {
         return RestResponse.success(201, "Task created", service.create(dto));
+    }
+
+    @PutMapping("/{id}")
+    public RestResponse<TaskResponse> update(@PathVariable Long id, @Valid @RequestBody TaskRequest dto) {
+        return RestResponse.success(200, "Task updated", service.update(id, dto));
     }
 
     @DeleteMapping("/{id}")
